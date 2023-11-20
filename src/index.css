@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+
+    .text-stroke-1 {
+        -webkit-text-stroke: 1px black;
+    }
+}
