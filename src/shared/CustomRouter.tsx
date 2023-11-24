@@ -5,7 +5,7 @@ import { protectedRoutes, routes } from '../utils/routes.tsx';
 import Layout from './Layout.tsx';
 
 const CustomRouter = () => {
-  const isAuth = false;
+  const isAuth = true;
 
   return (
     <BrowserRouter>

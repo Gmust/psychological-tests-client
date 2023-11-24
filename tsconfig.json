@@ -30,6 +30,12 @@
       ],
       "@shared/*": [
         "./src/shared/*"
+      ],
+      "@context/*": [
+        "./src/context/*"
+      ],
+      "types/*": [
+        "./@types/*"
       ]
     }
   },
