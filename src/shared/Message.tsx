@@ -1,6 +1,5 @@
+import { cn } from '@utils/libs.ts';
 import { cva, VariantProps } from 'class-variance-authority';
-
-import { cn } from '../utils/libs.ts';
 
 export const messageVariants = cva(
   'transition-colors text-xl',
@@ -41,7 +40,7 @@ export const Message = ({
       size
     }))}
     >
-         {heading && <p className='font-bold'>{heading}</p>}
+      {heading && <p className='font-bold'>{heading}</p>}
       {message}
     </div>
   );

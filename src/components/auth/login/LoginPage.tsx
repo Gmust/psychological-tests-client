@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { loginUserValidator } from '@utils/validation/login-user.ts';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,7 +9,6 @@ import { z } from 'zod';
 import { Button } from '../../../shared/Button.tsx';
 import { Input } from '../../../shared/Input.tsx';
 import { Message } from '../../../shared/Message.tsx';
-import { loginUserValidator } from '../../../utils/validation/login-user.ts';
 
 type loginPageInputs = z.infer<typeof loginUserValidator>
 
