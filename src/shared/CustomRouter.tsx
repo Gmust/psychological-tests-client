@@ -5,21 +5,19 @@ import { protectedRoutes, routes } from '../utils/routes.tsx';
 import Layout from './Layout.tsx';
 
 const CustomRouter = () => {
-
   const isAuth = false;
 
   return (
     <BrowserRouter>
       <Routes>
-        {routes.map((route) =>
+        {routes.map((route) => (
           <Route path={route.path} element={route.element} key={route.path} />
-        )}
+        ))}
         <Route element={<Layout />}>
-          {
-            isAuth && protectedRoutes.map((route) =>
+          {isAuth &&
+            protectedRoutes.map((route) => (
               <Route path={route.path} element={route.element} key={route.path} />
-            )
-          }
+            ))}
         </Route>
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

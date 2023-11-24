@@ -9,25 +9,25 @@ import { UserPage } from '../components/user/UserPage.tsx';
 export const routes: RouteObject[] = [
   {
     path: '/',
-    element: <HomePage />
+    element: <HomePage />,
   },
   {
     path: 'login',
-    element: <LoginPage />
+    element: <LoginPage />,
   },
   {
     path: 'register',
-    element: <RegistrationPage />
-  }
+    element: <RegistrationPage />,
+  },
 ];
 
 export const protectedRoutes: RouteObject[] = [
   {
     path: 'test/:id',
-    element: <TestPage />
+    element: <TestPage />,
   },
   {
     path: 'user/:id',
-    element: <UserPage />
-  }
+    element: <UserPage />,
+  },
 ];
