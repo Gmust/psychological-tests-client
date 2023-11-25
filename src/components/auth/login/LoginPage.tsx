@@ -1,13 +1,16 @@
+import { useAuthStore } from '@context/auth-store.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@shared/Button.tsx';
 import { Input } from '@shared/Input.tsx';
 import { Message } from '@shared/Message.tsx';
 import { loginUserValidator } from '@utils/validation/login-user.ts';
 import { Eye, EyeOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
+
+import { AuthService } from '../../../services/authService.ts';
 
 type loginPageInputs = z.infer<typeof loginUserValidator>;
 
@@ -23,7 +26,12 @@ export const LoginPage = () => {
   });
 
   const [show, setShow] = useState<boolean>(false);
-  const [isLoading, setIsloading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const setIsAuth = useAuthStore((state) => state.actions.setIsAuth);
+  const setToken = useAuthStore((state) => state.actions.setToken);
+  const setUser = useAuthStore((state) => state.actions.setUser);
+  const setMessage = useAuthStore((state) => state.actions.setMessage);
+  const message = useAuthStore((state) => state.message);
 
   const onSubmit = async ({ password, email }: loginPageInputs) => {
     if (!password) {
@@ -38,14 +46,27 @@ export const LoginPage = () => {
         type: 'required',
       });
     }
+    setIsLoading(true);
+    try {
+      const response = await AuthService.login({
+        email,
+        password,
+      });
+      setMessage(response.message);
+      setToken(response.token);
+      setUser(response.user);
+      setIsAuth();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className='h-screen flex justify-center items-center'>
       <div className='bg-white p-8 space-y-6 rounded-md '>
-        <h1 className='font-bold leading-tight tracking-tight text-gray-900 text-4xl'>
-          Sign in to your account
-        </h1>
+        <h1 className='font-bold leading-tight tracking-tight text-gray-900 text-4xl'>Sign in to your account</h1>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-10'>
           <div className='flex flex-col text-3xl space-y-0.5'>
             <label htmlFor='email'>Your email:</label>
@@ -57,9 +78,7 @@ export const LoginPage = () => {
               inputSize='default'
               {...register('email')}
             />
-            {errors.email && (
-              <Message message={errors.email.message!} variant='error' heading='Email error' />
-            )}
+            {errors.email && <Message message={errors.email.message!} variant='error' heading='Email error' />}
           </div>
           <div className='flex flex-col text-3xl space-y-0.5'>
             <label htmlFor='password'>Your password:</label>
@@ -71,6 +90,7 @@ export const LoginPage = () => {
                 inputSize='default'
                 type={show ? 'text' : 'password'}
                 className='w-full'
+                {...register('password')}
               />
               <div className='absolute right-0 cursor-pointer mr-2'>
                 {show ? (
@@ -80,13 +100,7 @@ export const LoginPage = () => {
                 )}
               </div>
             </div>
-            {errors.password && (
-              <Message
-                message={errors.password.message!}
-                variant='error'
-                heading='Password error'
-              />
-            )}
+            {errors.password && <Message message={errors.password.message!} variant='error' heading='Password error' />}
           </div>
           <div className='flex justify-between items-center space-x-5'>
             <div className='space-x-2'>
@@ -112,6 +126,7 @@ export const LoginPage = () => {
               </Link>
             </div>
           </div>
+          <div>{message && <Message message={message} variant='success' />}</div>
         </form>
       </div>
     </div>

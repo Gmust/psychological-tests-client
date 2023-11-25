@@ -15,9 +15,7 @@ const CustomRouter = () => {
         ))}
         <Route element={<Layout />}>
           {isAuth &&
-            protectedRoutes.map((route) => (
-              <Route path={route.path} element={route.element} key={route.path} />
-            ))}
+            protectedRoutes.map((route) => <Route path={route.path} element={route.element} key={route.path} />)}
         </Route>
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
