@@ -1,6 +1,9 @@
+import { useAuthStore } from '@context/auth-store.ts';
+import { AxiosError } from 'axios';
 import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from 'types/auth.ts';
+import { User } from 'types/index';
 
-import { $unAuthHost } from './index.ts';
+import { $authHost, $unAuthHost } from './index.ts';
 
 export const AuthService = {
   async login({ password, email }: LoginRequest) {
@@ -23,5 +26,17 @@ export const AuthService = {
       throw new Error('Something went wrong');
     }
     return data;
+  },
+  async getUserInfo() {
+    try {
+      const { data } = await $authHost.post<User>('/auth/me');
+      return data;
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        if (e.status === 401) {
+          useAuthStore.getState().actions.setIsAuth(false);
+        }
+      }
+    }
   },
 };

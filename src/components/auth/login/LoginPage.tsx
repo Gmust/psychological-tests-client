@@ -4,10 +4,12 @@ import { Button } from '@shared/Button.tsx';
 import { Input } from '@shared/Input.tsx';
 import { Message } from '@shared/Message.tsx';
 import { loginUserValidator } from '@utils/validation/login-user.ts';
-import { Eye, EyeOff } from 'lucide-react';
+import { AxiosError } from 'axios';
+import { Eye, EyeOff, Frown, Laugh } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { AuthService } from '../../../services/authService.ts';
@@ -27,6 +29,7 @@ export const LoginPage = () => {
 
   const [show, setShow] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
   const setIsAuth = useAuthStore((state) => state.actions.setIsAuth);
   const setToken = useAuthStore((state) => state.actions.setToken);
   const setUser = useAuthStore((state) => state.actions.setUser);
@@ -47,17 +50,28 @@ export const LoginPage = () => {
       });
     }
     setIsLoading(true);
+
     try {
       const response = await AuthService.login({
         email,
         password,
       });
-      setMessage(response.message);
-      setToken(response.token);
+      toast.success('User successfully logged in!', {
+        icon: <Laugh className='text-emerald-700' />,
+      });
+      setToken(response.access_token);
       setUser(response.user);
       setIsAuth();
-    } catch (e) {
-      console.log(e);
+      navigate(`/user/${response.user.id}`);
+      //eslint-disable-next-line
+    } catch (e: any) {
+      if (e instanceof AxiosError) {
+        setMessage(e.response?.data.message);
+      } else {
+        toast.error('Something gonna wrong!', {
+          icon: <Frown className='text-red-700' />,
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -126,7 +140,7 @@ export const LoginPage = () => {
               </Link>
             </div>
           </div>
-          <div>{message && <Message message={message} variant='success' />}</div>
+          <div>{message && <Message message={message} variant='error' />}</div>
         </form>
       </div>
     </div>

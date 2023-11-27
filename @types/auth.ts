@@ -12,7 +12,7 @@ export interface AuthStore {
     setMessage: (user: string) => void;
     setStatus: (status: boolean) => void;
     init: () => void;
-    setIsAuth: () => void;
+    setIsAuth: (isAuth?: boolean) => void;
     //   clearToken: () => void;
   };
 }
@@ -23,8 +23,7 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string;
-  message: string;
+  access_token: string;
   status: boolean;
   user: User;
 }
@@ -38,5 +37,4 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   status: boolean;
   message: string;
-  token: string;
 }

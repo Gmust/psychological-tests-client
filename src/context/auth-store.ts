@@ -13,10 +13,14 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       set({
         user,
       }),
-    setToken: (token: string | null) =>
+    setToken: (token: string | null) => {
+      if (token) {
+        localStorage.setItem('token', token);
+      }
       set({
         token,
-      }),
+      });
+    },
     setMessage: (message: string) =>
       set({
         message,
@@ -25,10 +29,17 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       set({
         status,
       }),
-    setIsAuth: () =>
-      set((state) => ({
-        isAuth: !!state.token,
-      })),
+    setIsAuth: (isAuth?: boolean) => {
+      if (isAuth) {
+        set({
+          isAuth,
+        });
+      } else {
+        set((state) => ({
+          isAuth: !!state.token,
+        }));
+      }
+    },
     init: () => {
       const { setToken, setIsAuth } = get().actions;
       setToken(localStorage.getItem('token'));
