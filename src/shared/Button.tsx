@@ -10,39 +10,30 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-amber-500 text-white hover:bg-amber-600',
-        ghost: 'bg-transparent hover:text-slate-900 hover:bg-slate-200'
+        ghost: 'bg-transparent hover:border-purple-700 hover:text-slate-900 hover:bg-slate-200',
       },
       size: {
         default: 'h-10 py-2 px-4',
         sm: 'h-9 px-2 py-1 rounded-md text-xl',
-        lg: 'text-2xl h-12, px-8 py-2'
-      }
-    }
-  }
+        lg: 'text-2xl h-12, px-8 py-2',
+      },
+    },
+  },
 );
 
-interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
 }
 
-export const Button = ({
-  className,
-  isLoading,
-  children,
-  variant,
-  size,
-  ...props
-}: ButtonProps) => {
+export const Button = ({ className, isLoading, children, variant, size, ...props }: ButtonProps) => {
   return (
     <button
       className={cn(
         buttonVariants({
           variant,
           size,
-          className
-        })
+          className,
+        }),
       )}
       disabled={isLoading}
       {...props}
