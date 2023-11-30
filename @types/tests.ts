@@ -10,3 +10,22 @@ export interface TestsResponse {
 export interface TestsRequest {
   page: number;
 }
+
+export interface TestRequest {
+  id: number;
+}
+
+export interface TestResponse {
+  data: Test;
+}
+
+export interface CurrentTestStore {
+  currentTest: Test;
+  userPoints: number;
+  currentQuestion: number;
+  actions: {
+    setCurrentTest: (currentTest: Test) => void;
+    setUserPoints: (points: number) => void;
+    setCurrentQuestion: (currentQuestion: number) => void;
+  };
+}

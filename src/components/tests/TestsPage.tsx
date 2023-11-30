@@ -25,12 +25,16 @@ export const TestsPage = () => {
   const handleNextPage = () => {
     if (page !== testsResponse?.total) {
       setPage((prevState) => prevState + 1);
+    } else {
+      toast.error('Ypu are on the last page!');
     }
   };
 
   const handlePreviousPage = () => {
     if (page !== 1) {
       setPage((prevState) => prevState - 1);
+    } else {
+      toast.error('Ypu are on the 1st page!');
     }
   };
 
