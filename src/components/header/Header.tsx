@@ -1,4 +1,4 @@
-import { UserIcon } from '@components/home/UserIcon.tsx';
+import { UserIcon } from '@components/header/UserIcon.tsx';
 import { useAuthStore } from '@context/auth-store.ts';
 import { BookOpenCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';

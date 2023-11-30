@@ -1,3 +1,4 @@
+import { TestsPage } from '@components/tests/TestsPage.tsx';
 import { RouteObject } from 'react-router-dom';
 
 import { LoginPage } from '../components/auth/login/LoginPage.tsx';
@@ -23,11 +24,15 @@ export const routes: RouteObject[] = [
 
 export const protectedRoutes: RouteObject[] = [
   {
-    path: 'test/:id',
+    path: 'tests/test/:id',
     element: <TestPage />,
   },
   {
     path: 'user/:id',
     element: <UserPage />,
+  },
+  {
+    path: 'tests',
+    element: <TestsPage />,
   },
 ];
