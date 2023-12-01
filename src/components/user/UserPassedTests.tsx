@@ -15,9 +15,9 @@ export const UserPassedTests = ({ tests }: UserPassedTestsProps) => {
     <div className='w-full py-1 '>
       <Tab.Group>
         <Tab.List className='flex flex-wrap max-w-xl space-x-1 rounded-xl border-gray-100 border-2'>
-          {tests.map((test) => (
+          {tests.map((test, index) => (
             <Tab
-              key={test.id}
+              key={index}
               className={({ selected }) =>
                 cn(
                   'w-full rounded-lg py-2.5 text-amber-500 text-md font-medium leading-5 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
@@ -32,14 +32,15 @@ export const UserPassedTests = ({ tests }: UserPassedTestsProps) => {
           ))}
         </Tab.List>
         <Tab.Panels className='mt-2 border-gray-100 border-2 rounded-md '>
-          {tests.map((test) => (
+          {tests.map((test, index) => (
             <Tab.Panel
+              key={index}
               className={classNames(
                 'rounded-xl bg-white p-3',
                 'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
               )}
             >
-              <div key={test.id} className='relative rounded-md p-3 hover:bg-gray-100'>
+              <div className='relative rounded-md p-3 hover:bg-gray-100'>
                 <p className='mt-1 flex space-x-1 text-md font-normal  text-gray-900'>{test.result}</p>
               </div>
             </Tab.Panel>

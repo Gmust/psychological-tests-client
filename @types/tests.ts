@@ -1,4 +1,4 @@
-import { Test } from './index';
+import { Question, Test } from './index';
 
 export interface TestsResponse {
   current_page: number;
@@ -19,6 +19,16 @@ export interface TestResponse {
   data: Test;
 }
 
+export interface PassTestRequest {
+  userId: number;
+  testId: number;
+}
+
+export interface PassTestResponse {
+  status: boolean;
+  message: string;
+}
+
 export interface CurrentTestStore {
   currentTest: Test;
   userPoints: number;
@@ -29,5 +39,14 @@ export interface CurrentTestStore {
     setCurrentTest: (currentTest: Test) => void;
     setUserPoints: (points: number) => void;
     setCurrentQuestion: (currentQuestion: number) => void;
+  };
+}
+
+export interface CreateNewTestStore extends Omit<Test, 'id'> {
+  actions: {
+    setTitle: (title: string) => void;
+    setResult: (result: string) => void;
+    setTotalPoints: (totalPoints: number) => void;
+    setQuestions: (questions: Omit<Question, 'id' | 'testId'>[]) => void;
   };
 }

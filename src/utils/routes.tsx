@@ -1,3 +1,5 @@
+import { AdminPage } from '@components/admin/AdminPage.tsx';
+import { CreateNewTest } from '@components/admin/new-test/CreateNewTest.tsx';
 import { TestsPage } from '@components/tests/TestsPage.tsx';
 import { RouteObject } from 'react-router-dom';
 
@@ -34,5 +36,16 @@ export const protectedRoutes: RouteObject[] = [
   {
     path: 'tests',
     element: <TestsPage />,
+  },
+];
+
+export const adminRoutes: RouteObject[] = [
+  {
+    path: 'user/:id/admin',
+    element: <AdminPage />,
+  },
+  {
+    path: 'user/:id/admin/create-new-test',
+    element: <CreateNewTest />,
   },
 ];

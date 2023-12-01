@@ -1,10 +1,43 @@
 import { UserIcon } from '@components/header/UserIcon.tsx';
 import { useAuthStore } from '@context/auth-store.ts';
-import { BookOpenCheck } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { BookOpenCheck, Lock } from 'lucide-react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { AuthService } from '../../services/authService.ts';
 
 export const Header = () => {
   const user = useAuthStore((state) => state.user);
+  const isAuth = useAuthStore((state) => state.isAuth);
+  const setUser = useAuthStore((state) => state.actions.setUser);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuth) {
+      toast.error('Unauthenticated.', { icon: <Lock className='text-red-700' /> });
+      navigate('/');
+    }
+
+    const getUserInfo = async () => {
+      try {
+        const res = await AuthService.getUserInfo();
+        if (res) {
+          console.log(res);
+          setUser(res);
+        }
+      } catch (e) {
+        if (e instanceof AxiosError) {
+          if (e.status === 401) {
+            toast.error('Unauthenticated.', { icon: <Lock className='text-red-700' /> });
+            navigate('/');
+          }
+        }
+      }
+    };
+    getUserInfo();
+  }, [isAuth]);
 
   return (
     <header>

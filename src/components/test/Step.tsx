@@ -2,14 +2,12 @@ import { useCurrentTestStore } from '@context/current-test-store.ts';
 import { RadioGroup } from '@headlessui/react';
 import { cn } from '@utils/libs.ts';
 import { CheckIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Answer, Question } from 'types/index';
 
 export const Step = (question: Question) => {
   const [answer, setAnswer] = useState<Answer | null>(null);
   const setCurrentAnswerPoints = useCurrentTestStore((state) => state.actions.setCurrentAnswerPoints);
-
-  useEffect(() => {});
 
   return (
     <div className='mt-10'>

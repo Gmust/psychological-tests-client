@@ -1,4 +1,11 @@
-import { TestRequest, TestResponse, TestsRequest, TestsResponse } from 'types/tests.ts';
+import {
+  PassTestRequest,
+  PassTestResponse,
+  TestRequest,
+  TestResponse,
+  TestsRequest,
+  TestsResponse,
+} from 'types/tests.ts';
 
 import { $authHost } from './index.ts';
 
@@ -9,6 +16,13 @@ export const TestsService = {
   },
   async getTest({ id }: TestRequest) {
     const { data } = await $authHost.get<TestResponse>(`/v1/tests/${id}`);
+    return data;
+  },
+  async passTest({ testId, userId }: PassTestRequest) {
+    const { data } = await $authHost.post<PassTestResponse>('/v1/users/pass-test', {
+      testId,
+      userId,
+    });
     return data;
   },
 };
