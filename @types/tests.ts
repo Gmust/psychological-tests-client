@@ -23,7 +23,9 @@ export interface CurrentTestStore {
   currentTest: Test;
   userPoints: number;
   currentQuestion: number;
+  currentAnswerPoints: number;
   actions: {
+    setCurrentAnswerPoints: (answerPoints: number) => void;
     setCurrentTest: (currentTest: Test) => void;
     setUserPoints: (points: number) => void;
     setCurrentQuestion: (currentQuestion: number) => void;
