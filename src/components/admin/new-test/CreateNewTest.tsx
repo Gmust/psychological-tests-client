@@ -3,12 +3,15 @@ import { useCreateNewTestStore } from '@context/create-new-test-store.ts';
 import { Button } from '@shared/Button.tsx';
 import { Input } from '@shared/Input.tsx';
 import { customAlphabet } from 'nanoid';
+import { useEffect } from 'react';
 
 export const CreateNewTest = () => {
   const setResult = useCreateNewTestStore((state) => state.actions.setResult);
   const setTotalPoints = useCreateNewTestStore((state) => state.actions.setTotalPoints);
   const setQuestions = useCreateNewTestStore((state) => state.actions.setQuestions);
   const setTitle = useCreateNewTestStore((state) => state.actions.setTitle);
+  const calculateTotalPoints = useCreateNewTestStore((state) => state.actions.calculateTotalPoints);
+  const createNewTest = useCreateNewTestStore((state) => state.actions.createNewTest);
   const title = useCreateNewTestStore((state) => state.title);
   const totalPoints = useCreateNewTestStore((state) => state.totalPoints);
   const result = useCreateNewTestStore((state) => state.result);
@@ -26,6 +29,10 @@ export const CreateNewTest = () => {
       },
     ]);
   };
+
+  useEffect(() => {
+    setTotalPoints(calculateTotalPoints(questions));
+  }, [questions]);
 
   return (
     <div className='flex min-h-screen items-center justify-center'>
@@ -83,8 +90,10 @@ export const CreateNewTest = () => {
               questions.some(
                 (question) =>
                   question.answers.length === 0 || question.answers.every((answer) => answer.answerText.trim() === ''),
-              )
+              ) ||
+              totalPoints < calculateTotalPoints(questions)
             }
+            onClick={createNewTest}
           >
             Create Test
           </Button>

@@ -1,4 +1,6 @@
+import { Test } from 'types/index';
 import {
+  CreateTestResponse,
   PassTestRequest,
   PassTestResponse,
   TestRequest,
@@ -22,6 +24,12 @@ export const TestsService = {
     const { data } = await $authHost.post<PassTestResponse>('/v1/users/pass-test', {
       testId,
       userId,
+    });
+    return data;
+  },
+  async createNewTest(newTest: Omit<Test, 'id'>) {
+    const { data } = await $authHost.post<CreateTestResponse>('/v1/tests', {
+      ...newTest,
     });
     return data;
   },

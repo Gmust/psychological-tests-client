@@ -29,6 +29,11 @@ export interface PassTestResponse {
   message: string;
 }
 
+export interface CreateTestResponse {
+  message: string;
+  test: Test;
+}
+
 export interface CurrentTestStore {
   currentTest: Test;
   userPoints: number;
@@ -48,5 +53,7 @@ export interface CreateNewTestStore extends Omit<Test, 'id'> {
     setResult: (result: string) => void;
     setTotalPoints: (totalPoints: number) => void;
     setQuestions: (questions: Omit<Question, 'testId'>[]) => void;
+    calculateTotalPoints: (questions: Omit<Question, 'testId'>[]) => number;
+    createNewTest: () => Promise<CreateTestResponse>;
   };
 }
