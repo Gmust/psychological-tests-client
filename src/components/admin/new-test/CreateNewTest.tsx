@@ -2,7 +2,7 @@ import { NewQuestion } from '@components/admin/new-test/NewQuestion.tsx';
 import { useCreateNewTestStore } from '@context/create-new-test-store.ts';
 import { Button } from '@shared/Button.tsx';
 import { Input } from '@shared/Input.tsx';
-import { customAlphabet, nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid';
 
 export const CreateNewTest = () => {
   const setResult = useCreateNewTestStore((state) => state.actions.setResult);
@@ -13,21 +13,30 @@ export const CreateNewTest = () => {
   const totalPoints = useCreateNewTestStore((state) => state.totalPoints);
   const result = useCreateNewTestStore((state) => state.result);
   const questions = useCreateNewTestStore((state) => state.questions);
+
   const nanoid = customAlphabet('1234567890', 10);
+
   const handleAddNewQuestion = () => {
-    setQuestions([...questions, { questionText: '', answers: [], id: Number(nanoid()) }]);
+    setQuestions([
+      ...questions,
+      {
+        questionText: '',
+        answers: [],
+        id: Number(nanoid()),
+      },
+    ]);
   };
 
   return (
-    <div className='min-h-screen flex items-center justify-center'>
-      <div className='bg-white p-6 rounded-md space-y-5'>
-        <h2 className='text-center text-4xl font-semibold mb-4'>Create new tests</h2>
+    <div className='flex min-h-screen items-center justify-center'>
+      <div className='space-y-5 rounded-md bg-white p-6'>
+        <h2 className='mb-4 text-center text-4xl font-semibold'>Create new tests</h2>
         <div className='flex  space-x-4'>
-          <div className='text-2xl flex  items-center space-x-4'>
+          <div className='flex items-center  space-x-4 text-2xl'>
             <label htmlFor='title'>Title: </label>
             <Input variant='default' id='title' inputSize='small' onChange={(e) => setTitle(e.target.value)} />
           </div>
-          <div className='text-2xl flex  items-center space-x-4'>
+          <div className='flex items-center  space-x-4 text-2xl'>
             <label htmlFor='points'>Points for test: </label>
             <Input
               variant='default'
@@ -40,12 +49,12 @@ export const CreateNewTest = () => {
             />
           </div>
         </div>
-        <div className='flex text-2xl space-x-4'>
+        <div className='flex space-x-4 text-2xl'>
           <label htmlFor='result'>Result:</label>
           <textarea
             id='result'
             rows={4}
-            className='block p-2.5 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring'
+            className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-lg text-gray-900 focus:ring'
             placeholder='Write result here...'
             onChange={(e) => setResult(e.target.value)}
           />
@@ -54,10 +63,10 @@ export const CreateNewTest = () => {
           <Button variant='default' size='default' onClick={handleAddNewQuestion}>
             Add new question
           </Button>
-          <div className='flex flex-col divide-y mt-2'>
+          <div className='mt-2 flex flex-col divide-y'>
             <div></div>
             {questions.map((question, index) => (
-              <NewQuestion questionId={question.id!} key={question.id} questionIndex={index} />
+              <NewQuestion key={question.id} currentQuestion={question!} questionIndex={index} />
             ))}
           </div>
         </div>
@@ -66,7 +75,16 @@ export const CreateNewTest = () => {
             variant='default'
             size='lg'
             className='bg-emerald-500 hover:bg-emerald-700'
-            disabled={questions.length < 2 && title == '' && result == '' && totalPoints <= 0}
+            disabled={
+              questions.length < 2 ||
+              title == '' ||
+              result == '' ||
+              totalPoints < 2 ||
+              questions.some(
+                (question) =>
+                  question.answers.length === 0 || question.answers.every((answer) => answer.answerText.trim() === ''),
+              )
+            }
           >
             Create Test
           </Button>

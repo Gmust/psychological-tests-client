@@ -6,5 +6,6 @@
   "jsxSingleQuote": true,
   "arrowParens": "always",
   "trailingComma": "all",
-  "eslintIntegration": true
+  "eslintIntegration": true,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
