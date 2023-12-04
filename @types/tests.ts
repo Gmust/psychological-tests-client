@@ -47,6 +47,6 @@ export interface CreateNewTestStore extends Omit<Test, 'id'> {
     setTitle: (title: string) => void;
     setResult: (result: string) => void;
     setTotalPoints: (totalPoints: number) => void;
-    setQuestions: (questions: Omit<Question, 'id' | 'testId'>[]) => void;
+    setQuestions: (questions: Omit<Question, 'testId'>[]) => void;
   };
 }

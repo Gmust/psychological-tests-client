@@ -23,14 +23,14 @@ export interface Test {
 }
 
 export interface Question {
-  id: number;
-  testId: number;
+  id?: number;
+  testId?: number;
   questionText: string;
   answers: Answer[];
 }
 
 export interface Answer {
-  id: number;
+  id?: number;
   answerText: string;
   pointsForAnswer: number;
   questionId: number;

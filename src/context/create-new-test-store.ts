@@ -8,12 +8,8 @@ export const useCreateNewTestStore = create<CreateNewTestStore>((set, get) => ({
   title: '',
   result: '',
   actions: {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    setQuestions: (questions: Omit<Question, 'testId' | 'id'>) =>
+    setQuestions: (questions: Omit<Question, 'testId'>[]) =>
       set({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
         questions,
       }),
     setResult: (result: string) =>

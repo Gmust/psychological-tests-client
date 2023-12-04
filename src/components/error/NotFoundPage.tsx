@@ -1,8 +1,16 @@
 import { Button } from '@shared/Button.tsx';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const NotFoundPage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/user/1');
+    }
+  }, []);
 
   return (
     <div className='h-screen flex justify-center items-center flex-col space-y-6 text-gray-100'>

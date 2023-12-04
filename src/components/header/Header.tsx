@@ -37,7 +37,7 @@ export const Header = () => {
       }
     };
     getUserInfo();
-  }, [isAuth]);
+  }, []);
 
   return (
     <header>
